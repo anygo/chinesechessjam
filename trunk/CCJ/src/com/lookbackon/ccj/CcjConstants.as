@@ -41,6 +41,14 @@ package com.lookbackon.ccj
 		public static const RED_MARSHAL:String 		= "RED_MARSHAL";
 		public static const RED_CANNON:String 	 	= "RED_CANNON";
 		public static const RED_PAWN:String 		= "RED_PAWN";
-		
+		//chess pieces state label
+		public static const STATE_ATTACK:String  	= "Attack";
+		public static const STATE_DEFENCE:String  	= "Defence";
+		public static const STATE_NASCENCE:String 	= "Nascence";
+		public static const STATE_RENASCENCE:String = "Renascence";
+		//game states' label
+		public static const STATE_HUMAN:String 		= "HumanTurn";
+		public static const STATE_ANOTHER_HUMAN:String 		= "AnotherHumanTurn";
+		public static const STATE_COMPUTER:String 		= "ComputerTurn";
 	}
 }

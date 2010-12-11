@@ -1,7 +1,7 @@
-package com.lookbackon.ccj.model
+package com.lookbackon.AI.finiteStateMachine
 {
-	import com.lookbackon.ccj.model.vos.ConductVO;
-	
+	import mx.core.IVisualElement;
+
 	//--------------------------------------------------------------------------
 	//
 	//  Imports
@@ -9,22 +9,20 @@ package com.lookbackon.ccj.model
 	//--------------------------------------------------------------------------
 	
 	/**
-	 * The Memento pattern says that: in order to record the state for this class,
-	 * We must create a memento type that we will call ChessPiecesMemento. 
-	 * The ChessPiecesMemento is capable of storing the Chess Pieces' values.	
+	 * IAgent.as class.   	
 	 * @author yangboz
 	 * @langVersion 3.0
 	 * @playerVersion 9.0
-	 * Created Dec 2, 2010 11:22:25 AM
+	 * Created Dec 10, 2010 11:14:57 AM
 	 */   	 
-	public class ChessPiecesMemento
+	public interface IAgent
 	{		
 		//--------------------------------------------------------------------------
 		//
 		//  Variables
 		//
 		//--------------------------------------------------------------------------
-		private var _conduct:ConductVO;
+		
 		//----------------------------------
 		//  CONSTANTS
 		//----------------------------------
@@ -34,14 +32,16 @@ package com.lookbackon.ccj.model
 		//  Public properties
 		//
 		//-------------------------------------------------------------------------- 
-		public function set conduct(value:ConductVO):void
-		{
-			_conduct = value;
-		}
-		public function get conduct():ConductVO
-		{
-			return _conduct;
-		}
+		function get name():String;
+		function set name(value:String):void;
+		
+		function get carrier():IVisualElement;
+		function set carrier(value:IVisualElement):void;
+		
+		function get traceTarget():IVisualElement;
+		function set traceTarget(value:IVisualElement):void;
+		
+		function get fsm():FiniteStateMachine;
 		//--------------------------------------------------------------------------
 		//
 		//  Protected properties
@@ -53,10 +53,6 @@ package com.lookbackon.ccj.model
 		//  Constructor
 		//
 		//--------------------------------------------------------------------------
-		public function ChessPiecesMemento(conduct:ConductVO)
-		{
-			this._conduct = conduct;
-		}     	
 		//--------------------------------------------------------------------------
 		//
 		//  Public methods
@@ -74,7 +70,6 @@ package com.lookbackon.ccj.model
 		//  Private methods
 		//
 		//--------------------------------------------------------------------------
-
 	}
 	
 }
