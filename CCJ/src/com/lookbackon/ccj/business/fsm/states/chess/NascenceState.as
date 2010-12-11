@@ -1,30 +1,29 @@
-package com.lookbackon.ccj.model
+package com.lookbackon.ccj.business.fsm.states.chess
 {
-	import com.lookbackon.ccj.model.vos.ConductVO;
-	
 	//--------------------------------------------------------------------------
 	//
 	//  Imports
 	//
 	//--------------------------------------------------------------------------
+	import com.lookbackon.ccj.business.fsm.ChessAgent;
+	import com.lookbackon.ccj.business.fsm.StateBase;
+	
 	
 	/**
-	 * The Memento pattern says that: in order to record the state for this class,
-	 * We must create a memento type that we will call ChessPiecesMemento. 
-	 * The ChessPiecesMemento is capable of storing the Chess Pieces' values.	
+	 * NascenceState.as class. Chess piece nacency state after created from chess factory;  	
 	 * @author yangboz
 	 * @langVersion 3.0
 	 * @playerVersion 9.0
-	 * Created Dec 2, 2010 11:22:25 AM
+	 * Created Dec 9, 2010 11:02:11 AM
 	 */   	 
-	public class ChessPiecesMemento
+	public class NascenceState extends StateBase
 	{		
 		//--------------------------------------------------------------------------
 		//
 		//  Variables
 		//
 		//--------------------------------------------------------------------------
-		private var _conduct:ConductVO;
+		
 		//----------------------------------
 		//  CONSTANTS
 		//----------------------------------
@@ -34,14 +33,7 @@ package com.lookbackon.ccj.model
 		//  Public properties
 		//
 		//-------------------------------------------------------------------------- 
-		public function set conduct(value:ConductVO):void
-		{
-			_conduct = value;
-		}
-		public function get conduct():ConductVO
-		{
-			return _conduct;
-		}
+		
 		//--------------------------------------------------------------------------
 		//
 		//  Protected properties
@@ -53,16 +45,30 @@ package com.lookbackon.ccj.model
 		//  Constructor
 		//
 		//--------------------------------------------------------------------------
-		public function ChessPiecesMemento(conduct:ConductVO)
+		public function NascenceState(agent:ChessAgent, resource:Object, description:String=null)
 		{
-			this._conduct = conduct;
+			//TODO: implement function
+			super(agent, resource, description);
 		}     	
 		//--------------------------------------------------------------------------
 		//
 		//  Public methods
 		//
 		//--------------------------------------------------------------------------
+		override public function enter():void
+		{
+			//TODO: implement function
+		}
 		
+		override public function exit():void
+		{
+			//TODO: implement function
+		}
+		
+		override public function update(time:Number=0):void
+		{
+			//TODO: implement function
+		}
 		//--------------------------------------------------------------------------
 		//
 		//  Protected methods
@@ -74,7 +80,6 @@ package com.lookbackon.ccj.model
 		//  Private methods
 		//
 		//--------------------------------------------------------------------------
-
 	}
 	
 }

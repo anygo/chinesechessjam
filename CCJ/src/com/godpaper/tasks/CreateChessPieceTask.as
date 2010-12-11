@@ -78,7 +78,8 @@ package com.godpaper.tasks
 					{
 //						trace("index:",vv*CcjConstants.BOARD_V_LINES+hh);
 						var ecGasket:ChessGasket = ChessPieceManager.gaskets.gett(hh,vv) as ChessGasket;
-						ecGasket.addElement( iChessPiece );
+						ecGasket.chessPiece = iChessPiece;
+//						ecGasket.addElement( iChessPiece );
 						//
 						iChessPiece.x = 0;
 						iChessPiece.y = 0;
