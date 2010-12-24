@@ -7,7 +7,8 @@ package assets
 	//--------------------------------------------------------------------------
 	
 	/**
-	 * EmbededAssets.as class.   	
+	 * EmbededAssets.as class.For obtainning static embeded resources.
+	 * @see http://livedocs.adobe.com/flex/3/html/help.html?content=embed_3.html  	
 	 * @author yangboz
 	 * @langVersion 3.0
 	 * @playerVersion 9.0
@@ -66,6 +67,9 @@ package assets
 		
 		[Embed(source="./RED_ROOK.swf")]
 		public static const RED_ROOK:Class;
+		//
+		[Embed(source="./icon_toll_gate.swf")]
+		public static const ICON_TOLL_GATE:Class;
 		//--------------------------------------------------------------------------
 		//
 		//  Public properties
