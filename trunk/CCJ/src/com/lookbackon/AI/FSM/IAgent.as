@@ -1,22 +1,22 @@
-package com.lookbackon.ccj.business.fsm.states.chess
+package com.lookbackon.AI.FSM
 {
+	import mx.core.IVisualElement;
+
 	//--------------------------------------------------------------------------
 	//
 	//  Imports
 	//
 	//--------------------------------------------------------------------------
-	import com.lookbackon.ccj.business.fsm.ChessAgent;
-	import com.lookbackon.AI.FSM.states.StateBase;
-	
 	
 	/**
-	 * NascenceState.as class. Chess piece nacency state after created from chess factory;  	
+	 * IAgent.as class.   	
 	 * @author yangboz
 	 * @langVersion 3.0
 	 * @playerVersion 9.0
-	 * Created Dec 9, 2010 11:02:11 AM
+	 * Created Dec 10, 2010 11:14:57 AM
+	 * @history 01/04/2011 agent with message handler,for multi-agent communication.
 	 */   	 
-	public class NascenceState extends StateBase
+	public interface IAgent
 	{		
 		//--------------------------------------------------------------------------
 		//
@@ -33,7 +33,16 @@ package com.lookbackon.ccj.business.fsm.states.chess
 		//  Public properties
 		//
 		//-------------------------------------------------------------------------- 
+		function get name():String;
+		function set name(value:String):void;
 		
+		function get carrier():IVisualElement;
+		function set carrier(value:IVisualElement):void;
+		
+		function get traceTarget():IVisualElement;
+		function set traceTarget(value:IVisualElement):void;
+		
+		function get fsm():FiniteStateMachine;
 		//--------------------------------------------------------------------------
 		//
 		//  Protected properties
@@ -45,30 +54,12 @@ package com.lookbackon.ccj.business.fsm.states.chess
 		//  Constructor
 		//
 		//--------------------------------------------------------------------------
-		public function NascenceState(agent:ChessAgent, resource:Object, description:String=null)
-		{
-			//TODO: implement function
-			super(agent, resource, description);
-		}     	
 		//--------------------------------------------------------------------------
 		//
 		//  Public methods
 		//
 		//--------------------------------------------------------------------------
-		override public function enter():void
-		{
-			//TODO: implement function
-		}
-		
-		override public function exit():void
-		{
-			//TODO: implement function
-		}
-		
-		override public function update(time:Number=0):void
-		{
-			//TODO: implement function
-		}
+		function onMessage(message:Message):void;
 		//--------------------------------------------------------------------------
 		//
 		//  Protected methods
