@@ -15,7 +15,7 @@
 			   maxWidth="550"
 			   maxHeight="520"
 			   applicationComplete="application1_applicationCompleteHandler(event)"
-			   creationComplete="application1_creationCompleteHandler(event)"
+			   creationComplete="application1_creationCompleteHandler(event)" xmlns:task1="org.spicefactory.lib.task.*"
 			   >
 	<s:layout>
 		<s:BasicLayout/>
@@ -80,7 +80,7 @@
 				this.dumpFootSprint();
 			}
 
-			protected function dumpFootSprint():void
+			public function dumpFootSprint():void
 			{
 				//design by contract.
 				//@see http://opensource.adobe.com/wiki/display/cairngorm/HowToUseCairngormContract
@@ -118,8 +118,7 @@
 		<!---
 		The context for bootstrapping the whole Parsley framework.
 		-->
-		<parsley:Configure/>
-		<parsley:ContextBuilder config="{CCJContextConfig}">
+		<parsley:ContextBuilder config="com.godpaper.configs.CCJContextConfig">
 		</parsley:ContextBuilder>
 
 		<!---
@@ -141,13 +140,13 @@
 			<components:IndicatoryProgressBar label="{GameManager.indication}"/>
 		</popup:PopUpWrapper>
 
-		<popup:PopUpWrapper open="{GameManager.indicatorSubmitScore}"
+		<parsley:PopUp  open="{GameManager.indicatorSubmitScore}"
 							center="true"
 							modal="true"
 							parent="{this}">
 			<mochi:SubmitScoreAndNextRound id="submitScoreAndNamePopup"/>
-		</popup:PopUpWrapper>
-
+		</parsley:PopUp >
+		
 		<!-- Controllers here -->
 		<!-- Tasks -->
 		<task:SequenceTask id="startUpSequenceTask" label="startUp">
@@ -156,9 +155,13 @@
 			<tasks:CreateChessVoTask label="create chess VO"/>
 		</task:SequenceTask>
 		
-		<task:SequenceTask id="cleanUp" label="cleanUp">
+		<!--<task:SequenceTask id="cleanUp" label="cleanUp">
 			<tasks:CleanUpChessPieceTask label="clean up chess pieces"/>
-		</task:SequenceTask>
+			<tasks:CleanUpPiecesBitboardTask label="clean up pieces bitboard"/>
+		</task:SequenceTask>-->
+		<task1:SequentialTaskGroup id="cleanUp" autoStart="false">
+
+		</task1:SequentialTaskGroup>
 		
 		<!-- Services here -->
 	</fx:Declarations>

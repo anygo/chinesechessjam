@@ -1,8 +1,8 @@
 package com.lookbackon.ccj.managers
 {
 	import com.adobe.cairngorm.task.SequenceTask;
-	import com.adobe.cairngorm.task.TaskEvent;
-	import com.godpaper.model.MochiModel;
+	import com.godpaper.tasks.CleanUpChessPieceTask;
+	import com.godpaper.tasks.CleanUpPiecesBitboardTask;
 	import com.godpaper.tasks.CreateChessPieceTask;
 	import com.godpaper.tasks.CreateChessVoTask;
 	import com.lookbackon.AI.searching.AttackFalse;
@@ -46,9 +46,10 @@ package com.lookbackon.ccj.managers
 		public static var indicatorSubmitScore:Boolean=false;
 		//
 		public static var agent:GameAgent;
-		//mochi model
-		[Bindable]
-		private static var mochiModel:MochiModel = MochiModel.getInstance();
+		//
+		private static var _level:int=1;
+		//
+		public static var tollgateTips:Array = ["baby intelligence","fellow intelligence","man intelligence","guru intelligence"];
 		//----------------------------------
 		//  CONSTANTS
 		//----------------------------------
@@ -61,7 +62,7 @@ package com.lookbackon.ccj.managers
 		public static const PHASE_OPENING:uint=1 << 0;
 		public static const PHASE_MIDDLE:uint=1 << 1;
 		public static const PHASE_ENDING:uint=1 << 2;
-
+		
 		//--------------------------------------------------------------------------
 		//
 		//  Properties
@@ -87,7 +88,18 @@ package com.lookbackon.ccj.managers
 		{
 			return _tollgates;
 		}
-
+		//----------------------------------
+		//  level(read-write)
+		//----------------------------------
+		public static function get level():int
+		{
+			return _level;
+		}
+		//
+		public static function set level(value:int):void
+		{
+			_level = value;
+		}
 		//--------------------------------------------------------------------------
 		//
 		//  Methods
@@ -115,22 +127,23 @@ package com.lookbackon.ccj.managers
 		{
 			//TODO:re-start game
 			//clear board,chess pieces
+			FlexGlobals.topLevelApplication.cleanUp.addTask(new CleanUpChessPieceTask());
+			FlexGlobals.topLevelApplication.cleanUp.addTask(new CleanUpPiecesBitboardTask());
 			FlexGlobals.topLevelApplication.cleanUp.start();
 			//
-			FlexGlobals.topLevelApplication.cleanUp.addEventListener(TaskEvent.TASK_COMPLETE,function(event:TaskEvent):void
-			{
-				//put down chess pieces again
-				//no more create chess gasket again.
-				//no more using start up task at Main.mxml.
-				var startUpTask:SequenceTask=new SequenceTask();
-				startUpTask.addChild(new CreateChessPieceTask());
-				startUpTask.addChild(new CreateChessVoTask());
-				startUpTask.start();
-				//
-				startGame();
-				//
-				event.target.removeEventListener(TaskEvent.TASK_COMPLETE,arguments.callee);
-			});
+//			mx.core.FlexGlobals.topLevelApplication.dumpFootSprint();
+			//
+			//put down chess pieces again
+			//no more create chess gasket again.
+			//no more using start up task at Main.mxml.
+			var startUpTask:SequenceTask=new SequenceTask();
+			startUpTask.addChild(new CreateChessPieceTask());
+			startUpTask.addChild(new CreateChessVoTask());
+			startUpTask.start();
+			//
+//			mx.core.FlexGlobals.topLevelApplication.dumpFootSprint();
+			//
+			startGame();
 		}
 
 		//----------------------------------
@@ -158,8 +171,6 @@ package com.lookbackon.ccj.managers
 		{
 			//delegate fsm transition to computer state.
 			agent.fsm.changeState(agent.computerState);
-			//delegate fsm update current state.
-			agent.fsm.update(mochiModel.level);
 		}
 
 		//----------------------------------
