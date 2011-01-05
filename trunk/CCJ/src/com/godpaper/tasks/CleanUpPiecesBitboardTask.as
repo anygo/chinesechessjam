@@ -7,109 +7,100 @@ package com.godpaper.tasks
 	//--------------------------------------------------------------------------
 //	import com.adobe.cairngorm.task.Task;
 	import org.spicefactory.lib.task.Task;
-	import com.lookbackon.ccj.CcjConstants;
-	import com.lookbackon.ccj.business.factory.ChessFactory;
-	import com.lookbackon.ccj.managers.ChessPieceManager;
 	import com.lookbackon.ccj.model.ChessPiecesModel;
-	import com.lookbackon.ccj.view.components.ChessGasket;
-	import com.lookbackon.ccj.view.components.ChessPiece;
-	import com.lookbackon.ccj.view.components.IChessPiece;
-	
-	import flash.display.DisplayObject;
-	import flash.geom.Point;
-	
-	import mx.core.FlexGlobals;
-	
+	import com.lookbackon.ccj.model.vos.ConductVO;
+	import com.lookbackon.ccj.utils.LogUtil;
+	import com.lookbackon.ds.BitBoard;
+
+	import mx.logging.ILogger;
+
+
 	/**
-	 * CleanUpChessPieceTask.as class.   	
+	 * CleanUpPiecesBitboardTask.as class.
 	 * @author yangboz
 	 * @langVersion 3.0
 	 * @playerVersion 9.0
-	 * Created Dec 29, 2010 11:51:40 AM
-	 */   	 
-	public class CleanUpChessPieceTask extends Task
-	{		
+	 * Created Jan 4, 2011 5:11:54 PM
+	 */
+	public class CleanUpPiecesBitboardTask extends Task
+	{
 		//--------------------------------------------------------------------------
 		//
 		//  Variables
 		//
 		//--------------------------------------------------------------------------
-		[Bindable]
+		//
 		private var chessPiecesModel:ChessPiecesModel = ChessPiecesModel.getInstance();
 		//----------------------------------
 		//  CONSTANTS
 		//----------------------------------
-		
+		private static const LOG:ILogger=LogUtil.getLogger(CleanUpPiecesBitboardTask);
+
 		//--------------------------------------------------------------------------
 		//
 		//  Public properties
 		//
 		//-------------------------------------------------------------------------- 
-		
+
 		//--------------------------------------------------------------------------
 		//
 		//  Protected properties
 		//
 		//-------------------------------------------------------------------------- 
-		
+
 		//--------------------------------------------------------------------------
 		//
 		//  Constructor
 		//
 		//--------------------------------------------------------------------------
-		public function CleanUpChessPieceTask()
+		public function CleanUpPiecesBitboardTask()
 		{
 			//TODO: implement function
 			super();
-		}     	
+		}
+
 		//--------------------------------------------------------------------------
 		//
 		//  Public methods
 		//
 		//--------------------------------------------------------------------------
-//		override protected function performTask():void
-		override protected function doStart():void	
-		{
-			//clean up chess piece
-			for(var v:int=0;v<CcjConstants.BOARD_V_LINES;v++)
-			{
-				for(var h:int=0;h<CcjConstants.BOARD_H_LINES;h++)
-				{
-					var chessGasket:ChessGasket = (ChessPieceManager.gaskets.gett(h,v) as ChessGasket);
-					if( chessGasket.chessPiece )
-					{
-						trace("removed piece:",ChessPiece(chessGasket.chessPiece).label );
-						try{
-							chessGasket.chessPiece.chessVO = null;
-							chessGasket.chessPiece.omenVO = null;
-							chessGasket.chessPiece = null;
-//							chessGasket.removeElement( chessGasket.chessPiece );
-							//
-							chessPiecesModel.reds.length = 0;
-							chessPiecesModel.blues.length = 0;
-							//
-						}catch(error:Error)
-						{
-							//
-							trace(error);
-						}
-					}
-				}
-			}
-			//
-			this.complete();
-		}
+
 		//--------------------------------------------------------------------------
 		//
 		//  Protected methods
 		//
 		//--------------------------------------------------------------------------
-		
+//		override protected function performTask():void
+		override protected function doStart():void
+		{
+			//TODO:
+			LOG.info("before clean up,allPieces:{0}", chessPiecesModel.allPieces.dump());
+			//
+			chessPiecesModel.BLUE_BISHOP.clear();
+			chessPiecesModel.BLUE_CANNON.clear();
+			chessPiecesModel.BLUE_KNIGHT.clear();
+			chessPiecesModel.BLUE_MARSHAL.clear();
+			chessPiecesModel.BLUE_OFFICAL.clear();
+			chessPiecesModel.BLUE_PAWN.clear();
+			chessPiecesModel.BLUE_ROOK.clear();
+			//
+			chessPiecesModel.RED_BISHOP.clear();
+			chessPiecesModel.RED_CANNON.clear();
+			chessPiecesModel.RED_KNIGHT.clear();
+			chessPiecesModel.RED_MARSHAL.clear();
+			chessPiecesModel.RED_OFFICAL.clear();
+			chessPiecesModel.RED_PAWN.clear();
+			chessPiecesModel.RED_ROOK.clear();
+			//
+			LOG.info("after clean up,allPieces:{0}", chessPiecesModel.allPieces.dump());
+			//
+			this.complete();
+		}
 		//--------------------------------------------------------------------------
 		//
 		//  Private methods
 		//
 		//--------------------------------------------------------------------------
 	}
-	
+
 }
