@@ -59,6 +59,9 @@ package com.lookbackon.ccj.managers
 		//
 		private static var _previousMementos:Array=[];
 		private static var _nextMementos:Array=[];
+		//flag is checked.
+		[Bindable]
+		private static var _isChecking:Boolean = false;
 		//----------------------------------
 		//  CONSTANTS
 		//----------------------------------
@@ -82,6 +85,17 @@ package com.lookbackon.ccj.managers
 			_conduct=value.conduct;
 			//
 			update();
+		}
+
+		//----------------------------------
+		//  previousMementos
+		//----------------------------------
+		/**
+		 * @return chess pieces' move history.
+		 */
+		public static function get previousMementos():Array
+		{
+			return _previousMementos;
 		}
 
 		//----------------------------------
@@ -109,7 +123,13 @@ package com.lookbackon.ccj.managers
 		{
 			_eatOffs=value;
 		}
-
+		//----------------------------------
+		//  isChecking
+		//----------------------------------
+		public static function get isChecking():Boolean
+		{
+			return _isChecking;
+		}	
 		//generation.
 		//--------------------------------------------------------------------------
 		//
@@ -172,7 +192,7 @@ package com.lookbackon.ccj.managers
 			//
 			LOG.info("End makeMove:{0}", conductVO.brevity);
 			//Trigger in-turn system .
-			if(GameManager.isRunning)
+			if (GameManager.isRunning)
 			{
 				if (GameManager.turnFlag == CcjConstants.FLAG_RED)
 				{
@@ -217,11 +237,11 @@ package com.lookbackon.ccj.managers
 				//roll back the eatting piece;
 				var cGasket:ChessGasket=ChessPieceManager.gaskets.gett(eattenPiece.position.x, eattenPiece.position.y);
 //				cGasket.addElement(eattenPiece);
-				cGasket.chessPiece = eattenPiece;
+				cGasket.chessPiece=eattenPiece;
 			}
 			//TODO:un-update functions.
 			//roll back bitboard
-			if(null!=eattenPiece)
+			if (null != eattenPiece)
 			{
 				BitBoard(chessPiecesModel[eattenPiece.type]).setBitt(cGasket.position.y, cGasket.position.x, true);
 			}
@@ -255,7 +275,7 @@ package com.lookbackon.ccj.managers
 //			}
 		}
 
-		//
+		//make move data and piece entity change behavior.
 		public static function applyMove(conductVO:ConductVO):void
 		{
 			//TODO:with roll back function support.
@@ -293,7 +313,7 @@ package com.lookbackon.ccj.managers
 				}
 				//remove element from gasket.
 //				cGasket.removeElementAt(0);
-				cGasket.chessPiece = null;
+				cGasket.chessPiece=null;
 			}
 			//
 			makeMove(conductVO);
@@ -342,11 +362,11 @@ package com.lookbackon.ccj.managers
 		}
 
 		/**
-		 *
+		 * @see Main.application1_creationCompleteHandler.createGasket.
 		 * @param legalMoves current chess piece's legal moves.
 		 *
 		 */
-		public static function indicatedGaskets(legalMoves:BitBoard):void
+		public static function indicateGaskets(legalMoves:BitBoard):void
 		{
 			//@see Main.application1_creationCompleteHandler.createGasket.
 			for (var v:int=0; v < CcjConstants.BOARD_V_LINES; v++)
@@ -372,7 +392,7 @@ package com.lookbackon.ccj.managers
 		 * @return the result of check pattern,if neccessary.
 		 *
 		 */
-		private static function indicateCheck(pieces:Vector.<ChessPiece>, marshal:BitBoard):Boolean
+		public static function indicateCheck(pieces:Vector.<ChessPiece>, marshal:BitBoard):Boolean
 		{
 			//TODO:
 			var totalCaptures:BitBoard=new BitBoard(CcjConstants.BOARD_H_LINES, CcjConstants.BOARD_V_LINES);
@@ -383,10 +403,15 @@ package com.lookbackon.ccj.managers
 			LOG.debug("totalCaptures:{0}", totalCaptures.dump());
 			if (!totalCaptures.and(marshal).isEmpty)
 			{
-//				GameManager.indicatorReadOut = true;
-//				GameManager.indication = GameManager.INDICATION_CHECK;
+				GameManager.indicatorCheck=true;
+				//
+				_isChecking = true;
+				//
 				return true;
 			}
+			//
+			_isChecking = false;
+			//
 			return false;
 		}
 
@@ -396,7 +421,7 @@ package com.lookbackon.ccj.managers
 		 * @return whether or not blue/red check mated.
 		 *
 		 */
-		public static function indicateCheckmate(gamePosition:PositionVO):Boolean
+		private static function indicateCheckmate(gamePosition:PositionVO):Boolean
 		{
 			var checkmated:Boolean;
 			if (gamePosition.color == CcjConstants.FLAG_BLUE)
@@ -410,7 +435,7 @@ package com.lookbackon.ccj.managers
 			return checkmated;
 		}
 
-		//
+		//update-relatived tasks here.
 		private static function update():void
 		{
 			var task:ParallelTask=new ParallelTask();

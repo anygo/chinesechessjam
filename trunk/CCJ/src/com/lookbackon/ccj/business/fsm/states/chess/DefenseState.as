@@ -1,15 +1,19 @@
 package com.lookbackon.ccj.business.fsm.states.chess
 {
-	import com.lookbackon.ccj.business.fsm.ChessAgent;
 	import com.lookbackon.AI.FSM.states.StateBase;
+	import com.lookbackon.ccj.business.fsm.ChessAgent;
+	import com.lookbackon.ccj.view.components.ChessPiece;
 	
 	/**
+	 * Defense state try to keep "marshal" safty.
 	 * 
 	 * @author Knight.zhou
 	 * 
 	 */	
 	public class DefenseState extends StateBase
 	{
+		private var _carrier:ChessPiece;
+		//
 		public function DefenseState(agent:ChessAgent,resource:Object,description:String=null)
 		{
 			super(agent,resource,description);
@@ -18,6 +22,7 @@ package com.lookbackon.ccj.business.fsm.states.chess
 		override public function enter():void
 		{
 			//TODO: implement function
+			_carrier = this.resource as ChessPiece;
 		}
 		
 		override public function exit():void

@@ -5,11 +5,11 @@ package com.lookbackon.AI.searching
 	//  Imports
 	//
 	//--------------------------------------------------------------------------
+	import com.godpaper.utils.FilterUtil;
 	import com.lookbackon.ccj.managers.GameManager;
 	import com.lookbackon.ccj.model.vos.ConductVO;
 	import com.lookbackon.ccj.model.vos.PositionVO;
 	import com.lookbackon.ccj.utils.LogUtil;
-	import com.lookbackon.ccj.utils.VectorUtil;
 	
 	import mx.logging.ILogger;
 	
@@ -72,7 +72,7 @@ package com.lookbackon.AI.searching
 				var evaluatedValue:int=int.MIN_VALUE;
 				if(captures.length>0)
 				{
-					attackMoves = captures.filter(VectorUtil.filterOnEatOff);
+					attackMoves = captures.filter(FilterUtil.filterOnEatOff);
 				}else
 				{
 					attackMoves = orderingMoves;
