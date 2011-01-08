@@ -1,29 +1,26 @@
-package com.lookbackon.AI.FSM
+package com.godpaper.utils
 {
-	import mx.utils.UIDUtil;
-
 	//--------------------------------------------------------------------------
 	//
 	//  Imports
 	//
 	//--------------------------------------------------------------------------
-	
+	import com.lookbackon.ccj.model.vos.ConductVO;
 	/**
-	 * Message.as class.   	
+	 * FilterUtil.as class.   	
 	 * @author yangboz
 	 * @langVersion 3.0
 	 * @playerVersion 9.0
-	 * Created Dec 27, 2010 5:52:12 PM
+	 * Created Jan 7, 2011 5:09:27 PM
 	 */   	 
-	public class Message
+	public class FilterUtil
 	{		
 		//--------------------------------------------------------------------------
 		//
 		//  Variables
 		//
 		//--------------------------------------------------------------------------
-		private var _priority:int;
-		private var _data:Object;
+		
 		//----------------------------------
 		//  CONSTANTS
 		//----------------------------------
@@ -33,28 +30,7 @@ package com.lookbackon.AI.FSM
 		//  Public properties
 		//
 		//-------------------------------------------------------------------------- 
-		public function get id():String
-		{
-			return UIDUtil.createUID();
-		}
-		//
-		public function get priority():int
-		{
-			return _priority;
-		}
-		public function set priority(value:int):void
-		{
-			_priority = value;
-		}
-		//
-		public function get data():Object
-		{
-			return _data;
-		}
-		public function set data(value:Object):void
-		{
-			_data = value;
-		}
+		
 		//--------------------------------------------------------------------------
 		//
 		//  Protected properties
@@ -66,15 +42,20 @@ package com.lookbackon.AI.FSM
 		//  Constructor
 		//
 		//--------------------------------------------------------------------------
-		public function Message()
-		{
-		}     	
 		//--------------------------------------------------------------------------
 		//
 		//  Public methods
 		//
 		//--------------------------------------------------------------------------
-		
+		//
+		public static function filterOnCaptures(item:ConductVO, index:int, vector:Vector.<ConductVO>):Boolean
+		{
+			return Boolean(item.target.chessVO.captures.celled);
+		}
+		public static function filterOnEatOff(item:ConductVO, index:int, vector:Vector.<ConductVO>):Boolean
+		{
+			return Boolean(item.eatOff!=null);
+		}
 		//--------------------------------------------------------------------------
 		//
 		//  Protected methods
