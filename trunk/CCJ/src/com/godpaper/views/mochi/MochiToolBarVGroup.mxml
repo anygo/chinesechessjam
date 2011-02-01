@@ -5,15 +5,17 @@
 	<fx:Script>
 		<![CDATA[
 			import assets.EmbededAssets;
-			
+
+			import com.godpaper.business.managers.GameManager;
+			import com.godpaper.configs.GameConfig;
+			import com.godpaper.configs.PluginConfig;
 			import com.godpaper.messages.LevelUpMessage;
-			import com.godpaper.model.MochiModel;
-			import com.lookbackon.ccj.managers.GameManager;
-			
+			import com.godpaper.model.plugin.MochiModel;
+
 			import mochi.as3.MochiCoins;
 			import mochi.as3.MochiScores;
 			import mochi.as3.MochiSocial;
-			
+
 			import mx.core.FlexGlobals;
 			//
 			private var loginWidgetShowed:Boolean=false;
@@ -24,7 +26,7 @@
 			protected function tollgateIconView_addedToStageHandler(event:Event):void
 			{
 				getIconSerials(SWFLoader(event.target)).gotoAndStop(GameManager.level);
-				tollgateSWFLoader.toolTip = GameManager.tollgateTips[GameManager.level-1];
+				tollgateSWFLoader.toolTip = GameConfig.tollgateTips[GameManager.level-1];
 			}
 
 			//
@@ -51,7 +53,7 @@
 			//
 			protected function leaderboard_clickHandler(event:MouseEvent):void
 			{
-				MochiScores.showLeaderboard({boardID:mochiModel.boradID});
+				MochiScores.showLeaderboard({boardID:PluginConfig.mochiBoardID});
 				//leader board ad here.
 //				MochiAd.showInterLevelAd({clip:FlexGlobals.topLevelApplication._mochiClip,
 //					id:mochiModel.gameID});
@@ -85,7 +87,7 @@
 			public function levelUpHandler(message:LevelUpMessage):void
 			{
 				getIconSerials(tollgateSWFLoader).gotoAndStop(GameManager.level);
-				tollgateSWFLoader.toolTip = GameManager.tollgateTips[GameManager.level-1];
+				tollgateSWFLoader.toolTip = GameConfig.tollgateTips[GameManager.level-1];
 			}
 		]]>
 	</fx:Script>

@@ -6,22 +6,25 @@ package com.godpaper.tasks
 	//
 	//--------------------------------------------------------------------------
 	import com.adobe.cairngorm.task.Task;
-	import com.lookbackon.ccj.CcjConstants;
-	import com.lookbackon.ccj.ChessPiecesConstants;
-	import com.lookbackon.ccj.managers.ChessPieceManager;
-	import com.lookbackon.ccj.managers.GameManager;
-	import com.lookbackon.ccj.model.ChessPiecesModel;
-	import com.lookbackon.ccj.model.vos.ConductVO;
-	import com.lookbackon.ccj.utils.LogUtil;
-	import com.lookbackon.ccj.view.components.ChessGasket;
-	import com.lookbackon.ccj.view.components.ChessPiece;
+	import com.godpaper.business.managers.ChessPieceManager;
+	import com.godpaper.business.managers.GameManager;
+	import com.godpaper.configs.GameConfig;
+	import com.godpaper.consts.CcjConstants;
+	import com.godpaper.consts.ChessPiecesConstants;
+	import com.godpaper.core.IChessPiece;
+	import com.godpaper.model.ChessGasketsModel;
+	import com.godpaper.model.ChessPiecesModel;
+	import com.godpaper.model.vos.ConductVO;
+	import com.godpaper.utils.LogUtil;
+	import com.godpaper.views.components.ChessGasket;
+	import com.godpaper.views.components.ChessPiece;
 	import com.lookbackon.ds.BitBoard;
-	
-	import mx.logging.ILogger;
+
 	import mx.core.IVisualElement;
-	
+	import mx.logging.ILogger;
+
 	/**
-	 * UpdateChessPiecesTask.as class.   	
+	 * UpdateChessPiecesTask.as class.
 	 * @author yangboz
 	 * @langVersion 3.0
 	 * @playerVersion 9.0
@@ -44,13 +47,13 @@ package com.godpaper.tasks
 		//  Public properties
 		//
 		//-------------------------------------------------------------------------- 
-		
+
 		//--------------------------------------------------------------------------
 		//
 		//  Protected properties
 		//
 		//-------------------------------------------------------------------------- 
-		
+
 		//--------------------------------------------------------------------------
 		//
 		//  Constructor
@@ -68,7 +71,7 @@ package com.godpaper.tasks
 		//  Public methods
 		//
 		//--------------------------------------------------------------------------
-		
+
 		//--------------------------------------------------------------------------
 		//
 		//  Protected methods
@@ -78,7 +81,7 @@ package com.godpaper.tasks
 		{
 			//TODO:
 			var cGasket:ChessGasket = 
-				ChessPieceManager.gaskets.gett(conductVO.nextPosition.x,conductVO.nextPosition.y) as ChessGasket;
+				ChessGasketsModel.getInstance().gaskets.gett(conductVO.nextPosition.x,conductVO.nextPosition.y) as ChessGasket;
 			//
 			if(cGasket.numElements>=1)
 			{
@@ -99,7 +102,7 @@ package com.godpaper.tasks
 				//set eat off value.
 				ChessPieceManager.eatOffs.push(removedPiece);
 				//remove pieces data.
-				if(GameManager.turnFlag==CcjConstants.FLAG_RED)
+				if(GameConfig.turnFlag==CcjConstants.FLAG_RED)
 				{
 					//clean this bit at bluePieces.
 					ChessPiecesModel.getInstance().blues.splice(removedIndex,1);
@@ -117,7 +120,7 @@ package com.godpaper.tasks
 			conductVO.target.y = 0;
 			//
 //			cGasket.addElement(conductVO.target as IVisualElement);
-			cGasket.chessPiece = conductVO.target;
+			cGasket.chessPiece = conductVO.target as IChessPiece;
 			//
 			this.complete();
 		}
@@ -127,5 +130,6 @@ package com.godpaper.tasks
 		//
 		//--------------------------------------------------------------------------
 	}
-	
+
 }
+

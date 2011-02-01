@@ -6,22 +6,24 @@ package com.godpaper.tasks
 	//
 	//--------------------------------------------------------------------------
 //	import com.adobe.cairngorm.task.Task;
-	import org.spicefactory.lib.task.Task;
-	import com.lookbackon.ccj.CcjConstants;
-	import com.lookbackon.ccj.business.factory.ChessFactory;
-	import com.lookbackon.ccj.managers.ChessPieceManager;
-	import com.lookbackon.ccj.model.ChessPiecesModel;
-	import com.lookbackon.ccj.view.components.ChessGasket;
-	import com.lookbackon.ccj.view.components.ChessPiece;
-	import com.lookbackon.ccj.view.components.IChessPiece;
-	
+	import com.godpaper.business.managers.ChessPieceManager;
+	import com.godpaper.configs.BoardConfig;
+	import com.godpaper.consts.CcjConstants;
+	import com.godpaper.core.IChessPiece;
+	import com.godpaper.model.ChessGasketsModel;
+	import com.godpaper.model.ChessPiecesModel;
+	import com.godpaper.views.components.ChessGasket;
+	import com.godpaper.views.components.ChessPiece;
+
 	import flash.display.DisplayObject;
 	import flash.geom.Point;
-	
+
 	import mx.core.FlexGlobals;
-	
+
+	import org.spicefactory.lib.task.Task;
+
 	/**
-	 * CleanUpChessPieceTask.as class.   	
+	 * CleanUpChessPieceTask.as class.
 	 * @author yangboz
 	 * @langVersion 3.0
 	 * @playerVersion 9.0
@@ -39,19 +41,19 @@ package com.godpaper.tasks
 		//----------------------------------
 		//  CONSTANTS
 		//----------------------------------
-		
+
 		//--------------------------------------------------------------------------
 		//
 		//  Public properties
 		//
 		//-------------------------------------------------------------------------- 
-		
+
 		//--------------------------------------------------------------------------
 		//
 		//  Protected properties
 		//
 		//-------------------------------------------------------------------------- 
-		
+
 		//--------------------------------------------------------------------------
 		//
 		//  Constructor
@@ -71,11 +73,11 @@ package com.godpaper.tasks
 		override protected function doStart():void	
 		{
 			//clean up chess piece
-			for(var v:int=0;v<CcjConstants.BOARD_V_LINES;v++)
+			for(var v:int=0;v<BoardConfig.yLines;v++)
 			{
-				for(var h:int=0;h<CcjConstants.BOARD_H_LINES;h++)
+				for(var h:int=0;h<BoardConfig.xLines;h++)
 				{
-					var chessGasket:ChessGasket = (ChessPieceManager.gaskets.gett(h,v) as ChessGasket);
+					var chessGasket:ChessGasket = (ChessGasketsModel.getInstance().gaskets.gett(h,v) as ChessGasket);
 					if( chessGasket.chessPiece )
 					{
 						trace("removed piece:",ChessPiece(chessGasket.chessPiece).label );
@@ -87,7 +89,7 @@ package com.godpaper.tasks
 							//
 							chessPiecesModel.reds.length = 0;
 							chessPiecesModel.blues.length = 0;
-							//
+								//
 						}catch(error:Error)
 						{
 							//
@@ -104,12 +106,13 @@ package com.godpaper.tasks
 		//  Protected methods
 		//
 		//--------------------------------------------------------------------------
-		
+
 		//--------------------------------------------------------------------------
 		//
 		//  Private methods
 		//
 		//--------------------------------------------------------------------------
 	}
-	
+
 }
+
