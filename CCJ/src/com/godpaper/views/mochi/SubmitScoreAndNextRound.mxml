@@ -9,9 +9,11 @@
 			   >
 	<fx:Script>
 		<![CDATA[
-			import com.godpaper.model.MochiModel;
-			import com.lookbackon.ccj.managers.GameManager;
+			import com.godpaper.business.managers.GameManager;
+			import com.godpaper.configs.GameConfig;
+			import com.godpaper.configs.PluginConfig;
 			import com.godpaper.messages.LevelUpMessage;
+			import com.godpaper.model.plugin.MochiModel;
 			
 			import mochi.as3.MochiScores;
 			
@@ -23,7 +25,7 @@
 			public var mochiModel:MochiModel;
 			//parsley message dispatcher
 			/**
-			 * The [MessageDispatcher] metadata tells Parsley to configure the 
+			 * The [MessageDispatcher] metadata tells Parsley to configure the
 			 * function so it can be used to send (dispatch) messages.
 			 */
 			[MessageDispatcher]
@@ -46,36 +48,36 @@
 						score: mochiModel.score.value,
 						name: nameTextInput.text
 					}
-				);
+					);
 				//
-				GameManager.indicatorSubmitScore = false;
-				//
-				GameManager.restartGame();
+				GameManager.restart();
 			}
 			//
 			protected function titlewindow1_showHandler(event:FlexEvent):void
 			{
 				//
-				MochiScores.setBoardID(mochiModel.boradID);
+				MochiScores.setBoardID(PluginConfig.mochiBoardID);
 			}
 			//
 			protected function nextRoundBtn_clickHandler(event:MouseEvent):void
 			{
 				//
-				GameManager.indicatorSubmitScore = false;
-				//
-				GameManager.restartGame();
+				GameManager.restart();
 				//increase intelligence level.
 				GameManager.level++;
 				//broad cast level up message.
 				dispatcher(new LevelUpMessage(GameManager.level));
 			}
-			
+			//
 			protected function get currentScore():int
 			{
 				return (GameManager.level)*10;
 			}
-
+			//
+			protected function get hasNextRound():Boolean
+			{
+				return GameManager.level<GameConfig.tollgates.length;
+			}
 		]]>
 	</fx:Script>
 	<fx:Declarations>
@@ -90,11 +92,11 @@
 			<s:TextInput id="scoreTextInput" enabled="false" text="{currentScore}"/>
 		</mx:FormItem>
 	</mx:Form>
-	
+
 	<s:controlBarContent>
 		<s:HGroup width="100%" horizontalAlign="center">
 			<s:Button id="submitBtn" label="Submit" click="submitBtnClickHandler(event)"/>
-			<s:Button id="nextRoundBtn" label="NextRound" click="nextRoundBtn_clickHandler(event)" enabled="true"/>
+			<s:Button id="nextRoundBtn" label="NextRound" enabled="{hasNextRound}" click="nextRoundBtn_clickHandler(event)"/>
 		</s:HGroup>
 	</s:controlBarContent>
 </s:TitleWindow>

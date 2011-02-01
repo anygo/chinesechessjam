@@ -7,9 +7,9 @@ package com.godpaper.tasks
 	//--------------------------------------------------------------------------
 //	import com.adobe.cairngorm.task.Task;
 	import org.spicefactory.lib.task.Task;
-	import com.lookbackon.ccj.model.ChessPiecesModel;
-	import com.lookbackon.ccj.model.vos.ConductVO;
-	import com.lookbackon.ccj.utils.LogUtil;
+	import com.godpaper.model.ChessPiecesModel;
+	import com.godpaper.model.vos.ConductVO;
+	import com.godpaper.utils.LogUtil;
 	import com.lookbackon.ds.BitBoard;
 
 	import mx.logging.ILogger;
@@ -76,6 +76,7 @@ package com.godpaper.tasks
 			//TODO:
 			LOG.info("before clean up,allPieces:{0}", chessPiecesModel.allPieces.dump());
 			//
+			chessPiecesModel.BLUE.clear();
 			chessPiecesModel.BLUE_BISHOP.clear();
 			chessPiecesModel.BLUE_CANNON.clear();
 			chessPiecesModel.BLUE_KNIGHT.clear();
@@ -84,6 +85,7 @@ package com.godpaper.tasks
 			chessPiecesModel.BLUE_PAWN.clear();
 			chessPiecesModel.BLUE_ROOK.clear();
 			//
+			chessPiecesModel.RED.clear();
 			chessPiecesModel.RED_BISHOP.clear();
 			chessPiecesModel.RED_CANNON.clear();
 			chessPiecesModel.RED_KNIGHT.clear();
