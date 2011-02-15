@@ -1,40 +1,29 @@
-package com.godpaper.tasks
+package com.godpaper.business.fsm.states.game
 {
 	//--------------------------------------------------------------------------
 	//
 	//  Imports
 	//
 	//--------------------------------------------------------------------------
-	import com.adobe.cairngorm.task.Task;
-	import com.godpaper.business.factory.ChessFactoryBase;
-	import com.godpaper.configs.BoardConfig;
-	import com.godpaper.consts.CcjConstants;
-	import com.godpaper.core.IChessFactory;
-	import com.godpaper.core.IChessPiece;
-	import com.godpaper.model.ChessGasketsModel;
-	import com.godpaper.views.components.ChessGasket;
-
-	import flash.geom.Point;
-	import flash.utils.getDefinitionByName;
-	import flash.utils.getQualifiedClassName;
-
-	import mx.core.FlexGlobals;
+	import com.godpaper.configs.GameConfig;
+	import com.godpaper.configs.IndicatorConfig;
+	import com.lookbackon.AI.FSM.IAgent;
+	import com.lookbackon.AI.FSM.states.StateBase;
 
 	/**
-	 * ChessTaskBase.as class.
+	 * AnotherHumanWinState.as class.
 	 * @author yangboz
 	 * @langVersion 3.0
 	 * @playerVersion 9.0
-	 * Created Nov 30, 2010 12:00:05 PM
+	 * Created Dec 23, 2010 1:01:43 PM
 	 */   	 
-	public class CreateChessPieceTask extends ChessTaskBase
+	public class AnotherHumanWinState extends StateBase
 	{		
 		//--------------------------------------------------------------------------
 		//
 		//  Variables
 		//
 		//--------------------------------------------------------------------------
-
 		//----------------------------------
 		//  CONSTANTS
 		//----------------------------------
@@ -56,51 +45,38 @@ package com.godpaper.tasks
 		//  Constructor
 		//
 		//--------------------------------------------------------------------------
-		public function CreateChessPieceTask(factory:Class=null)
+		public function AnotherHumanWinState(agent:IAgent, resource:Object, description:String=null)
 		{
 			//TODO: implement function
-			super();
-			//
-			this.factory = factory;
+			super(agent, resource, description);
 		}     	
 		//--------------------------------------------------------------------------
 		//
 		//  Public methods
 		//
 		//--------------------------------------------------------------------------
+		override public function enter():void
+		{
+			GameConfig.gameStateManager.isRunning = false;
+			IndicatorConfig.submitScore = true;
+		}
 
+		override public function update(time:Number=0):void
+		{
+
+		}
+
+		override public function exit():void
+		{
+			//
+			IndicatorConfig.submitScore = false;
+		}
 		//--------------------------------------------------------------------------
 		//
 		//  Protected methods
 		//
 		//--------------------------------------------------------------------------
-		override protected function performTask():void
-		{
-			var className:String = getQualifiedClassName(factory);
-			var implementation:Object = getDefinitionByName(className);
-			var realFactoy:IChessFactory  = new implementation();
-			//create chess piece
-			for(var hh:int=0;hh<BoardConfig.xLines;hh++)
-			{
-				for(var vv:int=0;vv<BoardConfig.yLines;vv++)
-				{
-					var iChessPiece:IChessPiece = realFactoy.createChessPiece(new Point(hh,vv));
-					if(iChessPiece!=null)
-					{
-//						trace("index:",vv*CcjConstants.BOARD_V_LINES+hh);
-						var ecGasket:ChessGasket = ChessGasketsModel.getInstance().gaskets.gett(hh,vv) as ChessGasket;
-						ecGasket.chessPiece = iChessPiece;
-//						ecGasket.addElement( iChessPiece );
-						//
-						iChessPiece.x = 0;
-						iChessPiece.y = 0;
-							//
-					}
-				}
-			}
-			//
-			this.complete();
-		}
+
 		//--------------------------------------------------------------------------
 		//
 		//  Private methods

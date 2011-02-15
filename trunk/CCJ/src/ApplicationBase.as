@@ -5,7 +5,7 @@ package
 	//  Imports
 	//
 	//--------------------------------------------------------------------------
-	import com.godpaper.business.managers.GameManager;
+	import com.godpaper.configs.GameConfig;
 	import com.godpaper.model.ChessPiecesModel;
 
 	import flash.display.MovieClip;
@@ -18,7 +18,6 @@ package
 	import spark.components.Application;
 
 
-	
 	/**
 	 * Abstract all kinds of board game initialization logic as a template to take a stand.
 	 * @author yangboz
@@ -60,6 +59,8 @@ package
 		{
 			//TODO: implement function
 			super();
+			//popup 
+
 			//
 			this.addEventListener(FlexEvent.PREINITIALIZE,preinitializeHandler);
 			this.addEventListener(FlexEvent.INITIALIZE,initializeHandler);
@@ -76,7 +77,7 @@ package
 		 */		
 		public function dumpFootSprint():void
 		{
-			
+
 		}
 		//--------------------------------------------------------------------------
 		//
@@ -141,7 +142,7 @@ package
 		{
 			// TODO Auto-generated method stub
 			//GameManager start.
-			GameManager.start();
+			GameConfig.gameStateManager.start();
 			//
 			LOG.info("redPieces:{0}", ChessPiecesModel.getInstance().redPieces.dump());
 			LOG.info("bluePieces:{0}", ChessPiecesModel.getInstance().bluePieces.dump());
