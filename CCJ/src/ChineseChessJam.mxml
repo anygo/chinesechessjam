@@ -22,7 +22,6 @@
 			import com.adobe.cairngorm.contract.Contract;
 			import com.godpaper.business.factory.CcjChessFactory;
 			import com.godpaper.business.factory.ChessFactoryBase;
-			import com.godpaper.business.managers.GameManager;
 			import com.godpaper.configs.BoardConfig;
 			import com.godpaper.configs.CCJContextConfig;
 			import com.godpaper.configs.GameConfig;
@@ -71,6 +70,8 @@
 				BoardConfig.yLines=10;
 				BoardConfig.xOffset=50;
 				BoardConfig.yOffset=50;
+				BoardConfig.xAdjust=50;
+				BoardConfig.yAdjust=-1;
 				//about piece:
 				PieceConfig.factory = CcjChessFactory;
 				//about plugin:
@@ -85,6 +86,7 @@
 				GameConfig.tollgates=[RandomWalk, ShortSighted, AttackFalse, AttackFalse, MiniMax];
 				GameConfig.tollgateTips=["baby intelligence", "fellow intelligence", "man intelligence", "guru intelligence"];
 				GameConfig.turnFlag=CcjConstants.FLAG_RED;
+				//
 			}
 
 			//  application1_creationCompleteHandler

@@ -1,39 +1,39 @@
-package com.godpaper.tasks
+package com.godpaper.utils
 {
 	//--------------------------------------------------------------------------
 	//
 	//  Imports
 	//
 	//--------------------------------------------------------------------------
-	import com.adobe.cairngorm.task.Task;
-	import com.godpaper.business.factory.ChessFactoryBase;
-	import com.godpaper.configs.BoardConfig;
-	import com.godpaper.consts.CcjConstants;
-	import com.godpaper.core.IChessFactory;
-	import com.godpaper.core.IChessPiece;
-	import com.godpaper.model.ChessGasketsModel;
-	import com.godpaper.views.components.ChessGasket;
-
-	import flash.geom.Point;
-	import flash.utils.getDefinitionByName;
-	import flash.utils.getQualifiedClassName;
-
-	import mx.core.FlexGlobals;
+	import mx.validators.Validator;
+	import mx.validators.ValidationResult;
 
 	/**
-	 * ChessTaskBase.as class.
+	 * GeneralValidator.as class.
 	 * @author yangboz
 	 * @langVersion 3.0
 	 * @playerVersion 9.0
-	 * Created Nov 30, 2010 12:00:05 PM
-	 */   	 
-	public class CreateChessPieceTask extends ChessTaskBase
-	{		
+	 * Created Nov 10, 2010 11:57:06 AM
+	 */
+	public class GeneralValidator extends Validator
+	{
+
 		//--------------------------------------------------------------------------
 		//
 		//  Variables
 		//
 		//--------------------------------------------------------------------------
+		//You may either accept certain values and reject all others,
+		//or reject certain values and accept all others.
+		//We're too lazy to make sure you don't specify both, but don't.
+		[Inspectable]
+		public var acceptedValues:Array=null;
+
+		[Inspectable]
+		public var rejectedValues:Array=null;
+
+		[Inspectable]
+		public var errorMessage:String="Invalid option selected!!!";
 
 		//----------------------------------
 		//  CONSTANTS
@@ -56,51 +56,47 @@ package com.godpaper.tasks
 		//  Constructor
 		//
 		//--------------------------------------------------------------------------
-		public function CreateChessPieceTask(factory:Class=null)
+		public function GeneralValidator()
 		{
 			//TODO: implement function
 			super();
-			//
-			this.factory = factory;
-		}     	
+		}
+
 		//--------------------------------------------------------------------------
 		//
 		//  Public methods
 		//
 		//--------------------------------------------------------------------------
-
 		//--------------------------------------------------------------------------
 		//
 		//  Protected methods
 		//
 		//--------------------------------------------------------------------------
-		override protected function performTask():void
+		override protected function doValidation(value:Object):Array
 		{
-			var className:String = getQualifiedClassName(factory);
-			var implementation:Object = getDefinitionByName(className);
-			var realFactoy:IChessFactory  = new implementation();
-			//create chess piece
-			for(var hh:int=0;hh<BoardConfig.xLines;hh++)
+			var results:Array=super.doValidation(value);
+
+			var invalid:Boolean=false;
+
+			if (acceptedValues)
 			{
-				for(var vv:int=0;vv<BoardConfig.yLines;vv++)
-				{
-					var iChessPiece:IChessPiece = realFactoy.createChessPiece(new Point(hh,vv));
-					if(iChessPiece!=null)
-					{
-//						trace("index:",vv*CcjConstants.BOARD_V_LINES+hh);
-						var ecGasket:ChessGasket = ChessGasketsModel.getInstance().gaskets.gett(hh,vv) as ChessGasket;
-						ecGasket.chessPiece = iChessPiece;
-//						ecGasket.addElement( iChessPiece );
-						//
-						iChessPiece.x = 0;
-						iChessPiece.y = 0;
-							//
-					}
-				}
+				if (acceptedValues.indexOf(value) == -1)
+					invalid=true;
 			}
-			//
-			this.complete();
+			else if (rejectedValues)
+			{
+				if (rejectedValues.indexOf(value) != -1)
+					invalid=true;
+			}
+
+			if (invalid)
+			{
+				results.push(new ValidationResult(true, "", "", errorMessage));
+			}
+
+			return results;
 		}
+
 		//--------------------------------------------------------------------------
 		//
 		//  Private methods
