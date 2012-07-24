@@ -156,3 +156,5 @@ TBC。。。
 
 刚才说过，当棋盘变动后，某些位棋盘就需要被更新。例如记录白子所在位置的“WhitePieces”位棋盘。假如我们把 E1格的白车移动到E4格，吃掉黑棋的一个兵。
 　　哪些位棋盘需要更新？嗯，我们来算一下……
+
+参考: [[http://www.xqbase.com/computer/struct_rotation.htm]]
